@@ -6,6 +6,7 @@ pipeline {
    environment {
       DOCKERHUB_CREDENTIALS=credentials('dockerhub-lmalvarez')
       SSH_MAIN_SERVER = credentials("SSH_MAIN_SERVER")
+      DATASOURCE_PASSWORD = credentials("DATASOURCE_PASSWORD")
    }
    stages {
       stage('Get Version') {
@@ -42,19 +43,24 @@ pipeline {
 
             script {
                 REMOTE_HOME = sh (
-                    script: "ssh ${SSH_MAIN_SERVER} 'pwd'",
+                    script: ''' ssh ${SSH_MAIN_SERVER} 'pwd' ''',
                     returnStdout: true
                 ).trim()
             }
 
+            sh "python replace-variables.py ${WORKSPACE}/backend-services/docker-compose.yaml DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD} INTERNAL_IP=${INTERNAL_IP}"
+
+            sh "ssh ${SSH_MAIN_SERVER} 'sudo rm -rf ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
+            sh "ssh ${SSH_MAIN_SERVER} 'sudo mkdir -p -m 777 ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
+
             sh "scp -r ${WORKSPACE}/backend-services/* ${SSH_MAIN_SERVER}:${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}"
 
-             sh "ssh ${SSH_MAIN_SERVER} 'docker-compose pull"
+            sh "ssh ${SSH_MAIN_SERVER} 'docker-compose -f ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/docker-compose.yaml pull"
         }
       }
       stage('Deploy') {
          steps {
-             sh "ssh ${SSH_MAIN_SERVER} 'docker-compose up"
+             sh "ssh ${SSH_MAIN_SERVER} 'docker-compose -f ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/docker-compose.yaml up"
          }
       }
    }

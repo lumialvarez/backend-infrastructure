@@ -83,8 +83,8 @@ services:
       - backend-services
     ports:
       - "9292:9292"
-    configs:
-      - add-host=lmalvarez.com:#{INTERNAL_IP}#
+    extra_hosts:
+      - "lmalvarez.com:#{INTERNAL_IP}#"
 
 ###### Metrics services #######
   grafana:
