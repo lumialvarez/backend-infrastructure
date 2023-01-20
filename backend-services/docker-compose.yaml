@@ -105,12 +105,12 @@ services:
     networks:
       - backend-services
     volumes:
-      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml
       - prometheus-data:/prometheus
     ports:
       - "9290:9090"
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--config.file=/etc/prometheus/prometheus.yaml'
       - '--storage.tsdb.path=/prometheus'
       - '--storage.tsdb.retention.time=1y'
       - '--web.enable-lifecycle'
