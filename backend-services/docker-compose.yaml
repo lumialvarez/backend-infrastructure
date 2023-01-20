@@ -46,6 +46,8 @@ services:
       - "9191:9191"
     environment:
       SCOPE: "prod"
+    extra_hosts:
+      - "lmalvarez.com:#{INTERNAL_IP}#"
     depends_on:
       - postgresql
 
@@ -59,6 +61,8 @@ services:
       - "50051:50051"
     environment:
       SCOPE: "prod"
+    extra_hosts:
+      - "lmalvarez.com:#{INTERNAL_IP}#"
     depends_on:
       - postgresql
 
@@ -72,6 +76,8 @@ services:
       - "50052:50052"
     environment:
       SCOPE: "prod"
+    extra_hosts:
+      - "lmalvarez.com:#{INTERNAL_IP}#"
     depends_on:
       - postgresql
 
