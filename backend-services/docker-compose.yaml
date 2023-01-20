@@ -1,9 +1,5 @@
 version: "3.7"
 
-volumes:
-  grafana-data:
-  prometheus-data:
-
 networks:
   backend-services:
     external: true
@@ -100,7 +96,7 @@ services:
     networks:
       - backend-services
     volumes:
-      - grafana-data:/var/lib/grafana
+      - /var/lib/grafana:/var/lib/grafana
     ports:
       - "3000:3000"
 
@@ -112,7 +108,7 @@ services:
       - backend-services
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml
-      - prometheus-data:/prometheus
+      - /var/lib/prometheus:/prometheus
     ports:
       - "9290:9090"
     command:

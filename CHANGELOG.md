@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.0.2] - 19/01/2023
+### Fixed
+- Change volumes to bind mount in grafana and prometheus
+
 ## [1.0.1] - 19/01/2023
 ### Fixed
 - Fix extra_hosts in Custom services

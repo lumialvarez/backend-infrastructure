@@ -49,7 +49,7 @@ pipeline {
             }
 
             sh "python replace-variables.py ${WORKSPACE}/backend-services/docker-compose.yaml DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD} INTERNAL_IP=${INTERNAL_IP}"
-            sh 'cat ${WORKSPACE}/backend-services/docker-compose.yaml'
+            //sh 'cat ${WORKSPACE}/backend-services/docker-compose.yaml'
 
             sh "ssh ${SSH_MAIN_SERVER} 'sudo rm -rf ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
             sh "ssh ${SSH_MAIN_SERVER} 'sudo mkdir -p -m 777 ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
