@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.0.4] - 28/01/2023
+### Fixed
+- Change personal-website-services version
+
 ## [1.0.3] - 20/01/2023
 ### Fixed
 - Change go-api-gateway, go-grpc-auth-service, go-grpc-profile-service and personal-website-services version

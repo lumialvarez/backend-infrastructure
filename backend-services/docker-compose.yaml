@@ -78,7 +78,7 @@ services:
       - postgresql
 
   personal-website-services:
-    image: lmalvarez/personal-website-services:1.0.3
+    image: lmalvarez/personal-website-services:1.0.4
     container_name: personal-website-services
     restart: unless-stopped
     networks:
