@@ -26,10 +26,11 @@ services:
     networks:
       - backend-services
     volumes:
-      - /var/lib/rabbitmq/:/var/lib/rabbitmq/mnesia
+      - /var/lib/rabbitmq/:/var/lib/rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
+    command: ["bash", "-c", "chmod 400 /var/lib/rabbitmq/.erlang.cookie; rabbitmq-server"]
 
 ###### Custom services #######
   go-api-gateway:
