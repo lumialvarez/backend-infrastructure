@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.1.3] - 15/02/2023
+### Fixed
+- RabbitMQ command
+
 ## [1.1.2] - 15/02/2023
 ### Fixed
 - RabbitMQ command
