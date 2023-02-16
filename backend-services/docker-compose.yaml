@@ -26,7 +26,7 @@ services:
     networks:
       - backend-services
     volumes:
-      - /var/lib/rabbitmq/:/var/lib/rabbitmq
+      - /var/lib/rabbitmq/:/var/lib/rabbitmq/mnesia
     ports:
       - "5672:5672"
       - "15672:15672"

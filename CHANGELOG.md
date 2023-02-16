@@ -3,7 +3,11 @@ Backend Services
 
 ## [Unreleased]
 
-## [1.1.0] - 28/01/2023
+## [1.1.1] - 15/02/2023
+### Fixed
+- RabbitMQ folder
+
+## [1.1.0] - 15/02/2023
 ### Added
 - Check for permit re-rum same version without changes
 ### Fixed
