@@ -7,6 +7,7 @@ pipeline {
       DOCKERHUB_CREDENTIALS=credentials('dockerhub-lmalvarez')
       SSH_MAIN_SERVER = credentials("SSH_MAIN_SERVER")
       DATASOURCE_PASSWORD = credentials("DATASOURCE_PASSWORD")
+      RABBITMQ_URL = credentials("RABBITMQ_URL")
    }
    stages {
       stage('Get Version') {
@@ -25,8 +26,13 @@ pipeline {
                     lastBuild = currentBuild.previousSuccessfulBuild.displayName.replaceFirst(/^#[0-9]+ - v/, "")
                     echo "Last success version: ${lastBuild} \nNew version to deploy: ${APP_VERSION}"
                     if(lastBuild == APP_VERSION)  {
-                         currentBuild.result = 'ABORTED'
-                         error("Aborted: A version that already exists cannot be deployed a second time")
+                        if(currentBuild.changeSets.size() > 0) {
+                            echo "Same version with changes is denied"
+                            currentBuild.result = 'ABORTED'
+                            error("Aborted: A version that already exists cannot be deployed a second time")
+                        } else {
+                            echo "Same version without changes is permitted"
+                        }
                     }
                 }
             }
@@ -48,7 +54,7 @@ pipeline {
                 ).trim()
             }
 
-            sh "python replace-variables.py ${WORKSPACE}/backend-services/docker-compose.yaml DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD} INTERNAL_IP=${INTERNAL_IP}"
+            sh "python replace-variables.py ${WORKSPACE}/backend-services/docker-compose.yaml DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD} INTERNAL_IP=${INTERNAL_IP} RABBITMQ_URL=${RABBITMQ_URL}"
             //sh 'cat ${WORKSPACE}/backend-services/docker-compose.yaml'
 
             sh "ssh ${SSH_MAIN_SERVER} 'sudo rm -rf ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"

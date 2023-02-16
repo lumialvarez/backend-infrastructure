@@ -33,7 +33,7 @@ services:
 
 ###### Custom services #######
   go-api-gateway:
-    image: lmalvarez/go-api-gateway:1.6.2
+    image: lmalvarez/go-api-gateway:1.7.0
     container_name: go-api-gateway
     restart: unless-stopped
     networks:
@@ -48,7 +48,7 @@ services:
       - postgresql
 
   go-grpc-auth-service:
-    image: lmalvarez/go-grpc-auth-service:1.0.2
+    image: lmalvarez/go-grpc-auth-service:1.1.0
     container_name: go-grpc-auth-service
     restart: unless-stopped
     networks:
@@ -57,6 +57,7 @@ services:
       - "50051:50051"
     environment:
       SCOPE: "prod"
+      RABBITMQ_URL: "#{RABBITMQ_URL}#"
     extra_hosts:
       - "lmalvarez.com:#{INTERNAL_IP}#"
     depends_on:

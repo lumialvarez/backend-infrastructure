@@ -3,6 +3,13 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.1.0] - 28/01/2023
+### Added
+- Check for permit re-rum same version without changes
+### Fixed
+- RabbitMQ url secret for go-grpc-auth-service
+- Change go-grpc-auth-service and go-api-gateway version
+
 ## [1.0.4] - 28/01/2023
 ### Fixed
 - Change personal-website-services version
