@@ -33,7 +33,7 @@ services:
 
 ###### Custom services #######
   go-api-gateway:
-    image: lmalvarez/go-api-gateway:1.7.0
+    image: lmalvarez/go-api-gateway:1.7.1
     container_name: go-api-gateway
     restart: unless-stopped
     networks:
@@ -64,7 +64,7 @@ services:
       - postgresql
 
   go-grpc-profile-service:
-    image: lmalvarez/go-grpc-profile-service:1.0.1
+    image: lmalvarez/go-grpc-profile-service:1.1.0
     container_name: go-grpc-profile-service
     restart: unless-stopped
     networks:
@@ -79,7 +79,7 @@ services:
       - postgresql
 
   personal-website-services:
-    image: lmalvarez/personal-website-services:1.0.4
+    image: lmalvarez/personal-website-services:1.0.5
     container_name: personal-website-services
     restart: unless-stopped
     networks:
