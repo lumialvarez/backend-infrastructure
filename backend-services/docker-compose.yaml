@@ -33,7 +33,7 @@ services:
 
 ###### Custom services #######
   go-api-gateway:
-    image: lmalvarez/go-api-gateway:1.7.1
+    image: lmalvarez/go-api-gateway:1.7.2
     container_name: go-api-gateway
     restart: unless-stopped
     networks:
