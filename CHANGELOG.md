@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.1.8] - 25/06/2023
+### Fixed
+- Change rabbitMQ version
+
 ## [1.1.7] - 20/02/2023
 ### Fixed
 - Change go-api-gateway version

@@ -20,7 +20,7 @@ services:
       POSTGRES_PASSWORD: #{DATASOURCE_PASSWORD}#
 
   rabbitmq:
-    image: rabbitmq:3.11-management
+    image: rabbitmq:3.12-management
     container_name: rabbitmq
     restart: unless-stopped
     networks:
