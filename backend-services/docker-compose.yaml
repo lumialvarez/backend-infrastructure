@@ -48,7 +48,7 @@ services:
       - postgresql
 
   go-grpc-auth-service:
-    image: lmalvarez/go-grpc-auth-service:1.1.0
+    image: lmalvarez/go-grpc-auth-service:1.1.1
     container_name: go-grpc-auth-service
     restart: unless-stopped
     networks:

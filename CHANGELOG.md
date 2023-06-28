@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.1.9] - 27/06/2023
+### Fixed
+- Change go-grpc-auth-service version
+
 ## [1.1.8] - 25/06/2023
 ### Fixed
 - Change rabbitMQ version
