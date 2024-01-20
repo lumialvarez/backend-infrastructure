@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.2.0] - 19/01/2024
+### Added
+- Add personal-website
+
 ## [1.1.9] - 27/06/2023
 ### Fixed
 - Change go-grpc-auth-service version

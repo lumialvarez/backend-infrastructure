@@ -32,6 +32,21 @@ services:
       - "15672:15672"
 
 ###### Custom services #######
+  personal-website:
+    image: lmalvarez/personal-website:2.1.2
+    container_name: personal-website
+    restart: unless-stopped
+    networks:
+      - backend-services
+    ports:
+      - "4200:80"
+    environment:
+      SCOPE: "prod"
+    extra_hosts:
+      - "lmalvarez.com:#{INTERNAL_IP}#"
+    depends_on:
+      - postgresql
+
   go-api-gateway:
     image: lmalvarez/go-api-gateway:1.7.4
     container_name: go-api-gateway
