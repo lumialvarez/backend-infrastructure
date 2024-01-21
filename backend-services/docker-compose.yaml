@@ -34,7 +34,7 @@ services:
 
 ###### Custom services #######
   personal-website:
-    image: lmalvarez/personal-website:2.1.2
+    image: lmalvarez/personal-website:2.1.3
     container_name: personal-website
     restart: unless-stopped
     networks:
