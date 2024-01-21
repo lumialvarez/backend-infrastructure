@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.2.1] - 20/01/2024
+### Fixed
+- Add hostname to rabbitmq container
+
 ## [1.2.0] - 19/01/2024
 ### Added
 - Add personal-website

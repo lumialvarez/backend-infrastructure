@@ -22,6 +22,7 @@ services:
   rabbitmq:
     image: rabbitmq:3.12-management
     container_name: rabbitmq
+    hostname: lmalvarezmq
     restart: unless-stopped
     networks:
       - backend-services
