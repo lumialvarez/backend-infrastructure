@@ -80,20 +80,23 @@ services:
 #    depends_on:
 #      - postgresql
 
-#  go-grpc-profile-service:
-#    image: lmalvarez/go-grpc-profile-service:1.1.0
-#    container_name: go-grpc-profile-service
-#    restart: unless-stopped
-#    networks:
-#      - backend-services
-#    ports:
-#      - "50052:50052"
-#    environment:
-#      SCOPE: "prod"
-#    extra_hosts:
-#      - "lmalvarez.com:#{INTERNAL_IP}#"
-#    depends_on:
-#      - postgresql
+  go-grpc-profile-service:
+    image: lmalvarez/go-grpc-profile-service:test
+    container_name: go-grpc-profile-service
+    restart: unless-stopped
+    networks:
+      - backend-services
+    ports:
+      - "50052:50052"
+    environment:
+      SCOPE: "prod"
+      DB_USER: "${DB_USER}"
+      DB_PASSWORD: "${DB_PASSWORD}"
+      DB_URL: "${DB_URL}"
+      DB_PORT: "${DB_PORT}"
+      DB_NAME: "${DB_NAME}"
+    depends_on:
+      - postgresql
 
 #  personal-website-services:
 #    image: lmalvarez/personal-website-services:1.0.5
