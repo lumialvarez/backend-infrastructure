@@ -7,7 +7,7 @@ networks:
 services:
   ###### Utility services #######
   postgresql:
-    image: postgres:14.1
+    image: postgres:14.10
     container_name: postgresql
     restart: unless-stopped
     networks:
@@ -19,18 +19,18 @@ services:
     environment:
       POSTGRES_PASSWORD: 1234
 
-#  rabbitmq:
-#    image: rabbitmq:3.12-management
-#    container_name: rabbitmq
-#    hostname: lmalvarezmq
-#    restart: unless-stopped
-#    networks:
-#      - backend-services
-#    volumes:
-#      - /var/lib/rabbitmq/:/var/lib/rabbitmq
-#    ports:
-#      - "5672:5672"
-#      - "15672:15672"
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    hostname: lmalvarezmq
+    restart: unless-stopped
+    networks:
+      - backend-services
+    volumes:
+      - /var/lib/rabbitmq/:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
   ###### Custom services #######
   personal-website:
@@ -56,29 +56,25 @@ services:
       - "9191:9191"
     environment:
       SCOPE: "prod"
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
       DB_URL: "${DB_URL}"
-      DB_PORT: "${DB_PORT}"
-      DB_NAME: "${DB_NAME}"
     depends_on:
       - postgresql
 
-#  go-grpc-auth-service:
-#    image: lmalvarez/go-grpc-auth-service:1.1.1
-#    container_name: go-grpc-auth-service
-#    restart: unless-stopped
-#    networks:
-#      - backend-services
-#    ports:
-#      - "50051:50051"
-#    environment:
-#      SCOPE: "prod"
-#      RABBITMQ_URL: "#{RABBITMQ_URL}#"
-#    extra_hosts:
-#      - "lmalvarez.com:#{INTERNAL_IP}#"
-#    depends_on:
-#      - postgresql
+  go-grpc-auth-service:
+    image: lmalvarez/go-grpc-auth-service:test
+    container_name: go-grpc-auth-service
+    restart: unless-stopped
+    networks:
+      - backend-services
+    ports:
+      - "50051:50051"
+    environment:
+      SCOPE: "prod"
+      DB_URL: "${DB_URL}"
+      RABBITMQ_URL: "${RABBITMQ_URL}"
+      JWT_SECRET_KEY: "${JWT_SECRET_KEY}"
+    depends_on:
+      - postgresql
 
   go-grpc-profile-service:
     image: lmalvarez/go-grpc-profile-service:test
@@ -90,11 +86,7 @@ services:
       - "50052:50052"
     environment:
       SCOPE: "prod"
-      DB_USER: "${DB_USER}"
-      DB_PASSWORD: "${DB_PASSWORD}"
       DB_URL: "${DB_URL}"
-      DB_PORT: "${DB_PORT}"
-      DB_NAME: "${DB_NAME}"
     depends_on:
       - postgresql
 
