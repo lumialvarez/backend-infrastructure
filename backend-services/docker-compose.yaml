@@ -9,8 +9,8 @@ services:
   certbot:
     image: certbot/certbot:latest
     volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - /var/lib/certbot/www/:/var/www/certbot/:rw
+      - /var/lib/certbot/conf/:/etc/letsencrypt/:rw
 
   postgresql:
     image: postgres:14.10
@@ -55,8 +55,8 @@ services:
     depends_on:
       - go-api-gateway
     volumes:
-      - ./certbot/www/:/var/www/certbot/:ro
-      - ./certbot/conf/:/etc/nginx/ssl/:ro
+      - /var/lib/certbot/www/:/var/www/certbot/:ro
+      - /var/lib/certbot/conf/:/etc/nginx/ssl/:ro
 
   go-api-gateway:
     image: lmalvarez/go-api-gateway:test
