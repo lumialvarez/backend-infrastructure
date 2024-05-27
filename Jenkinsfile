@@ -10,6 +10,7 @@ pipeline {
         RABBITMQ_URL = credentials("RABBITMQ_URL")
         DB_URL = credentials("DB_URL")
         POSTGRES_PASSWORD = credentials("POSTGRES_PASSWORD")
+        JWT_SECRET = credentials("JWT_SECRET")
     }
     stages {
         stage('Get Version') {
