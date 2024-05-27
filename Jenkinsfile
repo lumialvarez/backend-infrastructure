@@ -8,6 +8,8 @@ pipeline {
         SSH_MAIN_SERVER = credentials("SSH_MAIN_SERVER")
         DATASOURCE_PASSWORD = credentials("DATASOURCE_PASSWORD")
         RABBITMQ_URL = credentials("RABBITMQ_URL")
+        DB_URL = credentials("DB_URL")
+        POSTGRES_PASSWORD = credentials("POSTGRES_PASSWORD")
     }
     stages {
         stage('Get Version') {
@@ -54,8 +56,10 @@ pipeline {
                     ).trim()
                 }
 
-                sh "python replace-variables.py ${WORKSPACE}/backend-services/docker-compose.yaml DATASOURCE_PASSWORD=${DATASOURCE_PASSWORD} INTERNAL_IP=${INTERNAL_IP} RABBITMQ_URL=${RABBITMQ_URL}"
-                //sh 'cat ${WORKSPACE}/backend-services/docker-compose.yaml'
+                sh "echo 'DB_URL=${DB_URL} ' > .env"
+                sh "echo 'RABBITMQ_URL=${RABBITMQ_URL} ' >> .env"
+                sh "echo 'JWT_SECRET_KEY=${JWT_SECRET} ' >> .env"
+                sh "echo 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ' >> .env"
 
                 sh "ssh ${SSH_MAIN_SERVER} 'sudo rm -rf ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
                 sh "ssh ${SSH_MAIN_SERVER} 'sudo mkdir -p -m 777 ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
