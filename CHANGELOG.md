@@ -3,6 +3,11 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.3.0] - 24/01/2024
+### Added
+- Environment variables
+- Self sufficient  
+
 ## [1.2.2] - 20/01/2024
 ### Fixed
 - Change personal-website version

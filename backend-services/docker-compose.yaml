@@ -5,9 +5,15 @@ networks:
     external: true
 
 services:
-###### Utility services #######
+  ###### Utility services #######
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - /var/lib/certbot/www/:/var/www/certbot/:rw
+      - /var/lib/certbot/conf/:/etc/letsencrypt/:rw
+
   postgresql:
-    image: postgres:14.1
+    image: postgres:14.10
     container_name: postgresql
     restart: unless-stopped
     networks:
@@ -17,7 +23,7 @@ services:
     ports:
       - "5433:5432"
     environment:
-      POSTGRES_PASSWORD: #{DATASOURCE_PASSWORD}#
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
 
   rabbitmq:
     image: rabbitmq:3.12-management
@@ -32,24 +38,29 @@ services:
       - "5672:5672"
       - "15672:15672"
 
-###### Custom services #######
+  ###### Custom services #######
   personal-website:
-    image: lmalvarez/personal-website:2.1.3
+    image: lmalvarez/personal-website:2.1.4
     container_name: personal-website
     restart: unless-stopped
     networks:
       - backend-services
     ports:
-      - "4200:80"
+      - "80:80"
+      - "443:443"
     environment:
       SCOPE: "prod"
     extra_hosts:
-      - "lmalvarez.com:#{INTERNAL_IP}#"
+      - host.docker.internal:host-gateway
     depends_on:
-      - postgresql
+      - go-api-gateway
+    volumes:
+      - /var/lib/certbot/www/:/var/www/certbot/:ro
+      - /var/lib/certbot/conf/:/etc/nginx/ssl/:ro
+      - /var/www/res:/var/www/res:ro
 
   go-api-gateway:
-    image: lmalvarez/go-api-gateway:1.7.4
+    image: lmalvarez/go-api-gateway:1.7.5
     container_name: go-api-gateway
     restart: unless-stopped
     networks:
@@ -58,13 +69,12 @@ services:
       - "9191:9191"
     environment:
       SCOPE: "prod"
-    extra_hosts:
-      - "lmalvarez.com:#{INTERNAL_IP}#"
+      DB_URL: "${DB_URL}"
     depends_on:
       - postgresql
 
   go-grpc-auth-service:
-    image: lmalvarez/go-grpc-auth-service:1.1.1
+    image: lmalvarez/go-grpc-auth-service:1.1.2
     container_name: go-grpc-auth-service
     restart: unless-stopped
     networks:
@@ -73,14 +83,15 @@ services:
       - "50051:50051"
     environment:
       SCOPE: "prod"
-      RABBITMQ_URL: "#{RABBITMQ_URL}#"
-    extra_hosts:
-      - "lmalvarez.com:#{INTERNAL_IP}#"
+      DB_URL: "${DB_URL}"
+      RABBITMQ_URL: "${RABBITMQ_URL}"
+      JWT_SECRET_KEY: "${JWT_SECRET_KEY}"
     depends_on:
       - postgresql
+      - rabbitmq
 
   go-grpc-profile-service:
-    image: lmalvarez/go-grpc-profile-service:1.1.0
+    image: lmalvarez/go-grpc-profile-service:1.1.1
     container_name: go-grpc-profile-service
     restart: unless-stopped
     networks:
@@ -89,23 +100,22 @@ services:
       - "50052:50052"
     environment:
       SCOPE: "prod"
-    extra_hosts:
-      - "lmalvarez.com:#{INTERNAL_IP}#"
+      DB_URL: "${DB_URL}"
     depends_on:
       - postgresql
 
-  personal-website-services:
-    image: lmalvarez/personal-website-services:1.0.5
-    container_name: personal-website-services
-    restart: unless-stopped
-    networks:
-      - backend-services
-    ports:
-      - "9292:9292"
-    extra_hosts:
-      - "lmalvarez.com:#{INTERNAL_IP}#"
+#  personal-website-services:
+#    image: lmalvarez/personal-website-services:1.0.5
+#    container_name: personal-website-services
+#    restart: unless-stopped
+#    networks:
+#      - backend-services
+#    ports:
+#      - "9292:9292"
+#    extra_hosts:
+#      - "lmalvarez.com:#{INTERNAL_IP}#"
 
-###### Metrics services #######
+  ###### Metrics services #######
   grafana:
     image: grafana/grafana:9.3.2
     container_name: grafana
@@ -155,7 +165,7 @@ services:
         # command:
         # - '--path.procfs=/host/proc'
         # - '--path.sysfs=/host/sys'
-        # - --collector.filesystem.ignored-mount-points
+      # - --collector.filesystem.ignored-mount-points
       # - "^/(sys|proc|dev|host|etc|rootfs/var/lib/docker/containers|rootfs/var/lib/docker/overlay2|rootfs/run/docker/netns|rootfs/var/lib/docker/aufs)($$|/)"
 
   cadvisor:
