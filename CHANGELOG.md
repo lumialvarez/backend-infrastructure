@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.3.3] - 26/05/2024
+### Fix
+- Fix CORS configuration
+
 ## [1.3.2] - 26/05/2024
 ### Fix
 - Add CORS configuration
