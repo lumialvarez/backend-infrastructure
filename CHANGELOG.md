@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.3.1] - 26/05/2024
+### Fix
+- Add missing credential variable
+
 ## [1.3.0] - 24/01/2024
 ### Added
 - Environment variables
