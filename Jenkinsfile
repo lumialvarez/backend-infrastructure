@@ -1,5 +1,4 @@
 def APP_VERSION
-def INTERNAL_IP
 def REMOTE_HOME
 pipeline {
     agent any
@@ -44,35 +43,30 @@ pipeline {
         stage('Pull') {
             steps {
                 script {
-                    INTERNAL_IP = sh(
-                            script: '''ssh ${SSH_MAIN_SERVER} 'sudo bash script_internal_ip.sh' ''',
-                            returnStdout: true
-                    ).trim()
-                }
-
-                script {
                     REMOTE_HOME = sh(
                             script: ''' ssh ${SSH_MAIN_SERVER} 'pwd' ''',
                             returnStdout: true
                     ).trim()
                 }
 
-                sh "echo 'DB_URL=${DB_URL} ' > settings.conf"
-                sh "echo 'RABBITMQ_URL=${RABBITMQ_URL} ' >> settings.conf"
-                sh "echo 'JWT_SECRET_KEY=${JWT_SECRET} ' >> settings.conf"
-                sh "echo 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ' >> settings.conf"
+                sh "echo 'DB_URL=${DB_URL} ' > ./backend-services/settings.conf"
+                sh "echo 'RABBITMQ_URL=${RABBITMQ_URL} ' >> ./backend-services/settings.conf"
+                sh "echo 'JWT_SECRET_KEY=${JWT_SECRET} ' >> ./backend-services/settings.conf"
+                sh "echo 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ' >> ./backend-services/settings.conf"
 
                 sh "ssh ${SSH_MAIN_SERVER} 'sudo rm -rf ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
                 sh "ssh ${SSH_MAIN_SERVER} 'sudo mkdir -p -m 777 ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
 
                 sh "scp -r ${WORKSPACE}/backend-services/* ${SSH_MAIN_SERVER}:${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}"
 
-                sh "ssh ${SSH_MAIN_SERVER} 'docker-compose -f ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/docker-compose.yaml pull' "
+                sh "ssh ${SSH_MAIN_SERVER} 'docker-compose -f ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/docker-compose.yaml " +
+                        "--env-file ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/settings.conf pull' "
             }
         }
         stage('Deploy') {
             steps {
-                sh "ssh ${SSH_MAIN_SERVER} 'docker-compose -f ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/docker-compose.yaml --env-file settings.conf up -d' "
+                sh "ssh ${SSH_MAIN_SERVER} 'docker-compose -f ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/docker-compose.yaml " +
+                        "--env-file ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/settings.conf up -d' "
             }
         }
     }

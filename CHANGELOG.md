@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.4.2] - 28/05/2024
+### Fixed
+- Fix env file path in jenkinsfile
+
 ## [1.4.1] - 28/05/2024
 ### Fixed
 - Change env file of docker compose
