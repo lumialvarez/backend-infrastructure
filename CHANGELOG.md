@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.4.1] - 28/05/2024
+### Fixed
+- Change env file of docker compose
+
 ## [1.4.0] - 28/05/2024
 ### Added
 - Add GitHub Action force to update changelog
