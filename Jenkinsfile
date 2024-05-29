@@ -57,10 +57,10 @@ pipeline {
                     ).trim()
                 }
 
-                sh "echo 'DB_URL=${DB_URL} ' > .env"
-                sh "echo 'RABBITMQ_URL=${RABBITMQ_URL} ' >> .env"
-                sh "echo 'JWT_SECRET_KEY=${JWT_SECRET} ' >> .env"
-                sh "echo 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ' >> .env"
+                sh "echo 'DB_URL=${DB_URL} ' > settings.conf"
+                sh "echo 'RABBITMQ_URL=${RABBITMQ_URL} ' >> settings.conf"
+                sh "echo 'JWT_SECRET_KEY=${JWT_SECRET} ' >> settings.conf"
+                sh "echo 'POSTGRES_PASSWORD=${POSTGRES_PASSWORD} ' >> settings.conf"
 
                 sh "ssh ${SSH_MAIN_SERVER} 'sudo rm -rf ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
                 sh "ssh ${SSH_MAIN_SERVER} 'sudo mkdir -p -m 777 ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}'"
@@ -72,7 +72,7 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh "ssh ${SSH_MAIN_SERVER} 'docker-compose -f ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/docker-compose.yaml up -d' "
+                sh "ssh ${SSH_MAIN_SERVER} 'docker-compose -f ${REMOTE_HOME}/tmp_jenkins/${JOB_NAME}/docker-compose.yaml --env-file settings.conf up -d' "
             }
         }
     }
