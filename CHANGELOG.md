@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.4.0] - 28/05/2024
+### Added
+- Add GitHub Action force to update changelog
+
 ## [1.3.3] - 26/05/2024
 ### Fix
 - Fix CORS configuration
