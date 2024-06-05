@@ -40,7 +40,7 @@ services:
 
   ###### Custom services #######
   personal-website:
-    image: lmalvarez/personal-website:2.1.6
+    image: lmalvarez/personal-website:2.1.7
     container_name: personal-website
     restart: unless-stopped
     networks:
