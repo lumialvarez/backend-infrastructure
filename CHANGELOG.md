@@ -3,6 +3,11 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.4.4] - 04/06/2024
+### Fixed
+- Change applications version
+- Delete replace-variables.py
+
 ## [1.4.3] - 04/06/2024
 ### Fixed
 - Change personal-website version (update dependencies)

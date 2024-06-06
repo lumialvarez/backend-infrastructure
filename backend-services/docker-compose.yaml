@@ -40,7 +40,7 @@ services:
 
   ###### Custom services #######
   personal-website:
-    image: lmalvarez/personal-website:2.1.7
+    image: lmalvarez/personal-website:2.2.0
     container_name: personal-website
     restart: unless-stopped
     networks:
@@ -60,7 +60,7 @@ services:
       - /var/www/res:/var/www/res:ro
 
   go-api-gateway:
-    image: lmalvarez/go-api-gateway:1.7.5
+    image: lmalvarez/go-api-gateway:1.8.0
     container_name: go-api-gateway
     restart: unless-stopped
     networks:
@@ -74,7 +74,7 @@ services:
       - postgresql
 
   go-grpc-auth-service:
-    image: lmalvarez/go-grpc-auth-service:1.1.2
+    image: lmalvarez/go-grpc-auth-service:1.2.0
     container_name: go-grpc-auth-service
     restart: unless-stopped
     networks:
@@ -91,7 +91,7 @@ services:
       - rabbitmq
 
   go-grpc-profile-service:
-    image: lmalvarez/go-grpc-profile-service:1.1.1
+    image: lmalvarez/go-grpc-profile-service:1.2.0
     container_name: go-grpc-profile-service
     restart: unless-stopped
     networks:
