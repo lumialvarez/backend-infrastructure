@@ -60,7 +60,7 @@ services:
       - /var/www/res:/var/www/res:ro
 
   go-api-gateway:
-    image: lmalvarez/go-api-gateway:1.8.0
+    image: lmalvarez/go-api-gateway:1.9.0
     container_name: go-api-gateway
     restart: unless-stopped
     networks:

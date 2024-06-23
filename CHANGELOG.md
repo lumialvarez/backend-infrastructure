@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.4.5] - 23/06/2024
+### Fixed
+- Change go-api-gateway version
+
 ## [1.4.4] - 04/06/2024
 ### Fixed
 - Change applications version
