@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.5.1] - 27/07/2025
+### Fixed
+- Change personal-website version
+
 ## [1.5.0] - 27/07/2025
 ### Added
 - Add deberia-desplegar-hoy project
