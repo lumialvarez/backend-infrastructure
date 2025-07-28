@@ -3,6 +3,10 @@ Backend Services
 
 ## [Unreleased]
 
+## [1.5.0] - 27/07/2025
+### Added
+- Add deberia-desplegar-hoy project
+
 ## [1.4.5] - 23/06/2024
 ### Fixed
 - Change go-api-gateway version
