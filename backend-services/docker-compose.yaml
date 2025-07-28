@@ -40,7 +40,7 @@ services:
 
   ###### Custom services #######
   personal-website:
-    image: lmalvarez/personal-website:2.2.0
+    image: lmalvarez/personal-website:2.2.1
     container_name: personal-website
     restart: unless-stopped
     networks:
@@ -58,6 +58,17 @@ services:
       - /var/lib/certbot/www/:/var/www/certbot/:ro
       - /var/lib/certbot/conf/:/etc/nginx/ssl/:ro
       - /var/www/res:/var/www/res:ro
+
+  deberia-desplegar-hoy:
+    image: lmalvarez/deberia-desplegar-hoy:latest
+    container_name: deberia-desplegar-hoy
+    restart: unless-stopped
+    networks:
+      - backend-services
+    ports:
+      - "91:80"
+    environment:
+      SCOPE: "prod"
 
   go-api-gateway:
     image: lmalvarez/go-api-gateway:1.9.0
