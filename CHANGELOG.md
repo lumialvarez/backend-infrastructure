@@ -1,7 +1,9 @@
 # Changelog
 Backend Services
 
-## [Unreleased]
+## [1.5.2] - 13/06/2026
+### Fixed
+- Change personal-website version
 
 ## [1.5.1] - 27/07/2025
 ### Fixed
